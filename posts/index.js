@@ -38,6 +38,13 @@ app.post("/posts", async (req, res) => {
   res.status(201).send(posts[id]);
 });
 
+app.post("/events", (req, res) => {
+  const event = req.body;
+  console.log("Received event:", event.type);
+  // Handle any events if necessary
+  res.send({ status: "OK" });
+});
+
 app.listen(4000, () => {
   console.log("Posts API is running on port 4000");
 });

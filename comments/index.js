@@ -35,12 +35,16 @@ app.post("/posts/:id/comments", async (req, res) => {
       // Handle the error (e.g., retry, log, etc.)
     });
 
-  res.status(201).send(comments);
-});
-
   comments.push({ id: commentId, content });
   commentsByPostId[id] = comments;
   res.status(201).send(comments);
+});
+
+app.post("/events", (req, res) => {
+  const event = req.body;
+  console.log("Received event:", event.type);
+  // Handle any events if necessary
+  res.send({ status: "OK" });
 });
 
 app.listen(4001, () => {

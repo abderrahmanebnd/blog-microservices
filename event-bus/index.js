@@ -1,11 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
-
+const cors = require("cors");
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 app.post("/events", (req, res) => {
   const event = req.body;
   axios.post("http://localhost:4000/events", event).catch((err) => {
@@ -13,9 +13,6 @@ app.post("/events", (req, res) => {
   });
   axios.post("http://localhost:4001/events", event).catch((err) => {
     console.error("Error sending event to comments service:", err);
-  });
-  axios.post("http://localhost:4002/events", event).catch((err) => {
-    console.error("Error sending event to query service:", err);
   });
   res.send({ status: "OK" });
 });
