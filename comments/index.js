@@ -45,6 +45,25 @@ app.post("/events", (req, res) => {
   const event = req.body;
   console.log("Received event:", event.type);
   // Handle any events if necessary
+  if (event.type === "CommentModerated") {
+    const { postId, id, status, content } = event.data;
+    const comments = commentsByPostId[postId];
+    if (comments) {
+      const comment = comments.find((comment) => comment.id === id);
+      if (comment) {
+        comment.status = status;
+      }
+    }
+
+    axios
+      .post("http://localhost:4005/events", {
+        type: "CommentUpdated",
+        data: { id, postId, status, content },
+      })
+      .catch((err) => {
+        console.error("Error notifying event bus:", err.message);
+      });
+  }
   res.send({ status: "OK" });
 });
 
