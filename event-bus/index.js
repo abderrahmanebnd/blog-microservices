@@ -16,6 +16,9 @@ app.post("/events", (req, res) => {
   axios.post("http://localhost:4002/events", event).catch((err) => {
     console.error("Error sending event to query service:", err);
   });
+  axios.post("http://localhost:4003/events", event).catch((err) => {
+    console.error("Error sending event to moderation service:", err);
+  });
   res.send({ status: "OK" });
 });
 
